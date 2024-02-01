@@ -28,17 +28,17 @@ function collapseAll(arrow) {
     });
 }
 
-export function observeItems() {
+export function observeItems(items) {
+
 
     const options = {
-        //root: null,
-        rootMargin: '-250px 0px 0px 0px',
-        //threshold: 0.5
+        root: document.getElementById("root"),
+        //rootMargin: '300px',
+        threshold: 0.3
     };
 
     const observer = new IntersectionObserver(revealCallback, options);
 
-    const items = document.querySelectorAll('.item');
 
     items.forEach(item => {
         observer.observe(item);
@@ -47,10 +47,11 @@ export function observeItems() {
 
 
 function revealCallback(entries, observer) {
-    entries.forEach(entry => {
+    entries.forEach((entry, index) => {
         if (entry.isIntersecting) {
-            entry.target.classList.add('apear');
-            observer.unobserve(entry.target); 
+            console.log(index);
+            entry.target.classList.toggle('apear',entry.isIntersecting);
+            //observer.unobserve(entry.target); 
         }
     });
 }
