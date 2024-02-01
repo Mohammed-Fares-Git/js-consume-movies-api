@@ -2,11 +2,16 @@ import { token } from "./modules/contats.js";
 import { expendCard, observeItems } from "./modules/utils.js";
 
 const root = document.getElementById('root');
-
+const animClassNames = ["fade-in-0","fade-in-1","fade-in-2"]
+let animeIndex = 0;
 
 getMovies(token,
-(d) => fillTheDom(d))
-observeItems();
+(d) => fillTheDom(d)).then(()=>{
+    const cards = document.getElementsByClassName('card');
+    observeItems(Array.from(cards));
+})
+
+
 
 
 async function getMovies(token, toHtml){
@@ -25,7 +30,12 @@ async function getMovies(token, toHtml){
 
 
 function fillTheDom(data){
-    data.forEach(e => {
+    data.forEach((e, i) => {
+
+        if (animeIndex >= 3) {
+            animeIndex = 0
+        }
+
         const card = document.createElement('div'); 
         const cardImage = document.createElement('img'); 
         const cardBody = document.createElement('div'); 
@@ -37,7 +47,7 @@ function fillTheDom(data){
         card.style = "width: 30%;";
         cardExpendingArrow.style = "color: #000000;";
 
-        card.className = "card align-self-baseline mt-1 mb-1 item fade-in";
+        card.className = "card align-self-baseline mt-3 mb-3";
         cardImage.className = "card-img-top";
         cardBody.className = "card-body";
         cardFooter.className = "card-footer d-flex justify-content-center pe-auto";
@@ -53,6 +63,9 @@ function fillTheDom(data){
         cardFooter.addEventListener("click",(e) => {
             expendCard(cardExpendingArrow,cardText);
         });
+
+        card.classList.add(animClassNames[animeIndex]);
+        animeIndex++;
 
         cardFooter.appendChild(cardExpendingArrow);
         cardBody.append(cardTitel,cardText);
