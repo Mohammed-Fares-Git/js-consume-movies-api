@@ -1,7 +1,13 @@
+import { token } from "./modules/contats.js";
+import { expendCard, observeItems } from "./modules/utils.js";
+
 const root = document.getElementById('root');
 
-getMovies("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmYXJlc0FhQSIsImlhdCI6MTcwNjc3NzkzMiwiZXhwIjoxNzA2Nzc5MzcyfQ._Bgb4W_ksxFDaZgi-nSa3PV2LtZTRTvVQCY1MdT2tw4",
+
+getMovies(token,
 (d) => fillTheDom(d))
+observeItems();
+
 
 async function getMovies(token, toHtml){
     const response = await fetch("http://localhost:8089/movies/all",{
@@ -23,33 +29,35 @@ function fillTheDom(data){
         const card = document.createElement('div'); 
         const cardImage = document.createElement('img'); 
         const cardBody = document.createElement('div'); 
+        const cardFooter = document.createElement('a'); 
         const cardTitel = document.createElement('h5'); 
         const cardText = document.createElement('p');
+        const cardExpendingArrow = document.createElement('i');
         
-        card.style = "width: 18rem;";
+        card.style = "width: 30%;";
+        cardExpendingArrow.style = "color: #000000;";
 
-        card.className = "card";
+        card.className = "card align-self-baseline mt-1 mb-1 item fade-in";
         cardImage.className = "card-img-top";
         cardBody.className = "card-body";
+        cardFooter.className = "card-footer d-flex justify-content-center pe-auto";
         cardTitel.className = "card-title";
-        cardText.className = "card-Text";
+        cardText.className = "card-Text trans-card collapsed";
+        cardExpendingArrow.className = "fa-solid fa-chevron-down trans";
 
         cardImage.setAttribute("src",e.image)
         cardTitel.textContent = e.name;
         cardText.textContent = e.desc;
 
+
+        cardFooter.addEventListener("click",(e) => {
+            expendCard(cardExpendingArrow,cardText);
+        });
+
+        cardFooter.appendChild(cardExpendingArrow);
         cardBody.append(cardTitel,cardText);
-        card.append(cardImage,cardBody);
+        card.append(cardImage,cardBody,cardFooter);
 
         root.appendChild(card);
     });
 }
-
-const card = `<div class="card" style="width: 18rem;">
-<img class="card-img-top" src="..." alt="Card image cap">
-<div class="card-body">
-  <h5 class="card-title">Card title</h5>
-  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-  <a href="#" class="btn btn-primary">Go somewhere</a>
-</div>
-</div>`;
