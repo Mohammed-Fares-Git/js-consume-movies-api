@@ -1,3 +1,12 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    max-height: 100vh;
+}
+
 .arrow-expended {
     transform: rotate(180deg);
     transition: .3s;
@@ -23,14 +32,58 @@
 
 
 #root {
+    position: relative;
     transition: .5s;
+    max-width: 98%;
+    max-height: 100vh;
+    overflow-x: hidden;
+    overflow-y: scroll;
 }
 
-.fade-in  {
+.fade-in-0  {
     opacity: 0;
     transition: opacity .2s;
+    transform: translate(-30%, 30%);
 }
 
-.fade-in.apear {
+.fade-in-1  {
+    opacity: 0;
+    transition: opacity .2s;
+    transform: translateY(30%);
+}
+
+.fade-in-2  {
+    opacity: 0;
+    transition: opacity .2s;
+    transform: translate(30%,30%);
+}
+
+.apear {
     opacity: 1;
+    transition: 0.5s;
+    transform: translateX(0%);
+}
+
+#add-movie-btn {
+    z-index: 1000;
+    display: flex;
+    position: fixed;
+    right: 30px;
+    bottom: 30px;
+    background-color: rgb(17, 87, 169);
+    border: 1px rgb(0, 0, 0) solid;
+    border-radius: 10px;
+    align-items: baseline;
+    justify-content: space-between;
+    align-content: center;
+    padding: 10px;
+}
+
+#add-movie-btn-text {
+    max-width: 0%;
+    transition: max-width .3s ease-in;
+}
+
+#add-movie-btn:hover ~ #add-movie-btn-text {
+    max-width: 100px;
 }
